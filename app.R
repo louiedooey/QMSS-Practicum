@@ -17,7 +17,7 @@ View(FDIC$Date.received)
 ui <- fluidPage(    
   
   # Give the page a title
-  titlePanel("Urgency of Complaints"),
+  titlePanel("Urgency of Complaints over Time"),
   
   # Generate a row with a sidebar
   sidebarLayout(      
@@ -88,10 +88,11 @@ server <- shinyServer(function(input, output) {
     
     # Render a basic plot
     ggplot(data=dates_counts, aes(x=Date.received, y=freq)) +
-      geom_bar(stat="identity", color="blue") +
-      theme_minimal()
+      geom_bar(stat="identity", color="#37A6BF") +
+      theme_minimal() +
+      xlab("Date of Complaint") + 
+      ylab("Urgency Level")
   })
-  
 })
 
 # Run the application 
