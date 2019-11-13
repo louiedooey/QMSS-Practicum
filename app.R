@@ -8,10 +8,6 @@ library(ggplot2)
 setwd("C:/Users/louis/Google Drive/QMSS Courses/Practicum/Practicum")
 FDIC <- read.csv("Consumer_Complaints.csv")
 
-# Begin with changing the types back from factors to make generating the bar plot easier.
-# FDIC$Product <- as.character(FDIC$Product)
-# FDIC$Company <- as.character(FDIC$Company)
-
 # convert date from mm/dd/yyyy into yyyy/mm/dd
 library(lubridate)
 FDIC$Date.received <- mdy(FDIC$Date.received)
@@ -38,7 +34,7 @@ ui <- fluidPage(
                      label = "Choose a start and end date:",
                      start = "2011-12-01", end = Sys.Date(),
                      min = "2001-01-20", max = Sys.Date() + 2,
-                     separator = " - ", format = "yyyy/mm/dd",
+                     separator = " - ", format = "dd/mm/yyyy",
                      startview = 'year', language = 'en', weekstart = 7
       ),
 
