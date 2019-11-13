@@ -4,26 +4,19 @@ library(plyr)
 library(data.table)
 library(ggplot2)
 
-# how does this work
-
 # FDIC <- read.csv(file.choose())
 setwd("C:/Users/louis/Google Drive/QMSS Courses/Practicum/Practicum")
 FDIC <- read.csv("Consumer_Complaints.csv")
 
 # Begin with changing the types back from factors to make generating the bar plot easier.
-FDIC$Product <- as.character(FDIC$Product)
-FDIC$Company <- as.character(FDIC$Company)
+# FDIC$Product <- as.character(FDIC$Product)
+# FDIC$Company <- as.character(FDIC$Company)
 
 # convert date from mm/dd/yyyy into yyyy/mm/dd
 library(lubridate)
 FDIC$Date.received <- mdy(FDIC$Date.received)
 
 View(FDIC$Date.received)
-
-# We also need to shift the Date.received column to work better with in the range interface
-# in the Shiny UI (i.e. shifting from 0001 to 2001). The first value added shifts the dates up from 0000 to 
-# 1970 as the reference year and the second value shifts them to 2000 as the reference.
-# FDIC$Date.received <- FDIC$Date.received + abs(as.numeric(as.Date("0000/01/01"))) + abs(as.numeric(as.Date("2000/01/01")))
 
 ui <- fluidPage(    
   
@@ -43,9 +36,9 @@ ui <- fluidPage(
       
       dateRangeInput('dateRange2',
                      label = "Choose a start and end date:",
-                     start = "Sys.Date() - 3, end = Sys.Date() + 3",
-                     min = "2001-01-20", max = Sys.Date() + 5,
-                     separator = " - ", format = "dd/mm/yyyy",
+                     start = "2011-12-01", end = Sys.Date(),
+                     min = "2001-01-20", max = Sys.Date() + 2,
+                     separator = " - ", format = "yyyy/mm/dd",
                      startview = 'year', language = 'en', weekstart = 7
       ),
 
