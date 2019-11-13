@@ -4,6 +4,8 @@ library(plyr)
 library(data.table)
 library(ggplot2)
 
+# how does this work
+
 # FDIC <- read.csv(file.choose())
 setwd("C:/Users/louis/Google Drive/QMSS Courses/Practicum/Practicum")
 FDIC <- read.csv("Consumer_Complaints.csv")
