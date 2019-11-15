@@ -91,7 +91,9 @@ server <- shinyServer(function(input, output) {
       geom_bar(stat="identity", color="#37A6BF") +
       theme_minimal() +
       xlab("Date of Complaint") + 
-      ylab("Urgency Level")
+      ylab("Urgency Level") +
+      scale_y_continuous(labels=function(label) sprintf('%15.2f', label))
+      # scale_x_continuous(labels=function(label) sprintf('%15.2f', label))
   })
 })
 
