@@ -3,10 +3,11 @@ library(dplyr)
 library(plyr)
 library(data.table)
 library(ggplot2)
+library(shinyWidgets)
 
-# FDIC <- read.csv(file.choose())
-setwd("C:/Users/louis/Google Drive/QMSS Courses/Practicum/Practicum")
-FDIC <- read.csv("Consumer_Complaints.csv")
+FDIC <- read.csv(file.choose())
+# setwd("C:/Users/louis/Google Drive/QMSS Courses/Practicum/Practicum")
+# FDIC <- read.csv("Consumer_Complaints.csv")
 
 # convert date from mm/dd/yyyy into yyyy/mm/dd
 library(lubridate)
@@ -24,11 +25,13 @@ ui <- fluidPage(
     
     # Define the sidebar with one input
     sidebarPanel(
-      selectInput(inputId="product", label="Product Category:", 
-                  choices=unique(FDIC$Product)),
+      pickerInput(inputId="product", label="Product Category:", 
+                  choices=sort(as.character(unique(FDIC$Product))), options = list(`actions-box` = TRUE),
+                  multiple = TRUE),
       
-      selectInput(inputId="company", label="Company:", 
-                  choices=unique(FDIC$Company)),
+      pickerInput(inputId="company", label="Company:", 
+                  choices=sort(as.character(unique(FDIC$Company))),  options = list(`actions-box` = TRUE),
+                  multiple = TRUE),
       
       dateRangeInput('dateRange2',
                      label = "Choose a start and end date:",
