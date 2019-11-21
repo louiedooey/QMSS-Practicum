@@ -12,8 +12,6 @@ FDIC <- read.csv("Consumer_Complaints.csv")
 library(lubridate)
 FDIC$Date.received <- mdy(FDIC$Date.received)
 
-View(FDIC$Date.received)
-
 ui <- fluidPage(    
   
   # Give the page a title
@@ -86,14 +84,13 @@ server <- shinyServer(function(input, output) {
     # viewed by the user.
     dates_counts <- datasetInputDf[Date.received, on = c('Date.received')]
     
-    # Render a basic plot
+    # Render a plot
     ggplot(data=dates_counts, aes(x=Date.received, y=freq)) +
       geom_bar(stat="identity", color="#37A6BF") +
       theme_minimal() +
-      xlab("Date of Complaint") + 
+      xlab("\n Date of Complaint") + 
       ylab("Urgency Level") +
-      scale_y_continuous(labels=function(label) sprintf('%15.2f', label))
-      # scale_x_continuous(labels=function(label) sprintf('%15.2f', label))
+      scale_y_continuous(labels=function(label) sprintf('%15.2f', label)) # add padding
   })
 })
 
