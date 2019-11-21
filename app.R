@@ -3,14 +3,15 @@ library(dplyr)
 library(plyr)
 library(data.table)
 library(ggplot2)
+library(shinyWidgets)
 
-# FDIC <- read.csv(file.choose())
-setwd("C:/Users/louis/Google Drive/QMSS Courses/Practicum/Practicum")
-FDIC <- read.csv("Consumer_Complaints.csv")
+CFPB <- read.csv(file.choose())
+# setwd("C:/Users/louis/Google Drive/QMSS Courses/Practicum/Practicum")
+# CFPD <- read.csv("Consumer_Complaints.csv")
 
 # convert date from mm/dd/yyyy into yyyy/mm/dd
 library(lubridate)
-FDIC$Date.received <- mdy(FDIC$Date.received)
+CFPB$Date.received <- mdy(CFPB$Date.received)
 
 View(FDIC$Date.received)
 
@@ -24,11 +25,13 @@ ui <- fluidPage(
     
     # Define the sidebar with one input
     sidebarPanel(
-      selectInput(inputId="product", label="Product Category:", 
-                  choices=unique(FDIC$Product)),
+      pickerInput(inputId="product", label="Product Category:", 
+                  choices=sort(as.character(unique(CFPB$Product))), options = list(`actions-box` = TRUE),
+                  multiple = TRUE),
       
-      selectInput(inputId="company", label="Company:", 
-                  choices=unique(FDIC$Company)),
+      pickerInput(inputId="company", label="Company:", 
+                  choices=sort(as.character(unique(CFPB$Company))),  options = list(`actions-box` = TRUE),
+                  multiple = TRUE),
       
       dateRangeInput('dateRange2',
                      label = "Choose a start and end date:",
@@ -40,7 +43,7 @@ ui <- fluidPage(
 
       hr(),
 
-      helpText("Data from FDIC.")
+      helpText("Data from CFPB.")
     ),
     
     # Create a spot for the barplot
@@ -64,9 +67,9 @@ server <- shinyServer(function(input, output) {
   datasetInput <- reactive({
     # Dynamically filter for the company and product input by the user, then select for dates,
     # and generate a count of the occurrences for each date
-    df <- FDIC %>%
+    df <- CFPB %>%
       filter(Company == input$company, Product == input$product) %>%
-      # select("Date.received")%>%
+      select("Date.received")%>%
       count(c("Date.received"))
   })
   
@@ -94,6 +97,7 @@ server <- shinyServer(function(input, output) {
       ylab("Urgency Level") +
       scale_y_continuous(labels=function(label) sprintf('%15.2f', label))
       # scale_x_continuous(labels=function(label) sprintf('%15.2f', label))
+    
   })
 })
 
